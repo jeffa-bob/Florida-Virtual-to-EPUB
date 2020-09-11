@@ -147,11 +147,11 @@
 
   public MemoryStream convertopdf(string html)
   {
-    using (MemoryStream htmlSource = new MemoryStream(System.Text.Encoding.GetEncoding(1252).GetBytes(html)))
+    using (MemoryStream htmlSource = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
     using (MemoryStream pdfDest = new MemoryStream())
     {
       ConverterProperties converterProperties = new ConverterProperties();
-      converterProperties.SetCharset("CP1252");
+      converterProperties.SetCharset("UTF-8");
       HtmlConverter.ConvertToPdf(htmlSource, pdfDest, converterProperties);
       return pdfDest;
     }
