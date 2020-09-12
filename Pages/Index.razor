@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject IJSRuntime JSRuntime
+@using PdfSharp;
 @using System.Net.Http;
 @using HtmlAgilityPack;
 @using System.IO;
@@ -191,9 +192,6 @@
           using (MemoryStream htmlSource = new MemoryStream(System.Text.Encoding.GetEncoding("1252").GetBytes(html)))
           using (MemoryStream pdfDest = new MemoryStream())
           {
-              ConverterProperties converterProperties = new ConverterProperties();
-              converterProperties.SetCharset("Windows-1252");
-              HtmlConverter.ConvertToPdf(htmlSource, pdfDest, converterProperties);
               return pdfDest;
         }
       }
