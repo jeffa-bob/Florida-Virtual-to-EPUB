@@ -80,26 +80,26 @@
           HtmlDocument doc = new HtmlDocument();
           doc.LoadHtml(html);
           HtmlNode htma = doc.DocumentNode.Descendants("html").FirstOrDefault();
-          htma.SetAttributeValue("xmlns:m", "http://www.w3.org/1998/Math/MathM");
+          htma.SetAttributeValue("xmlns:m", "https://www.w3.org/1998/Math/MathM");
           HtmlNode head = doc.DocumentNode.SelectSingleNode("/html/head");
 
           HtmlNode link = doc.CreateElement("link");
           head.AppendChild(link);
           link.SetAttributeValue("rel", "stylesheet");
-          link.SetAttributeValue("href", "/mathscribe/jqmath-0.4.3.css");
+          link.SetAttributeValue("href", "../mathscribe/jqmath-0.4.3.css");
           HtmlNode link2 = doc.CreateElement("link");
           head.AppendChild(link2);
           link2.SetAttributeValue("rel", "stylesheet");
-          link2.SetAttributeValue("href", "http://fonts.googleapis.com/css?family=UnifrakturMaguntia");
+          link2.SetAttributeValue("href", "https://fonts.googleapis.com/css?family=UnifrakturMaguntia");
           HtmlNode meta = doc.CreateElement("meta");
           head.AppendChild(meta);
           meta.SetAttributeValue("charset", "utf-8");
           HtmlNode script1 = doc.CreateElement("script");
           head.AppendChild(script1);
-          script1.SetAttributeValue("src","/mathscribe/jquery-1.4.3.min.js");
+          script1.SetAttributeValue("src","../mathscribe/jquery-1.4.3.min.js");
           HtmlNode script2 = doc.CreateElement("script");
           head.AppendChild(script2);
-          script2.SetAttributeValue("src","/mathscribe/jqmath-etc-0.4.6.min.js");
+          script2.SetAttributeValue("src","../mathscribe/jqmath-etc-0.4.6.min.js");
           script2.SetAttributeValue("charset", "utf-8");
           doc.Save(writer);
           return writer.ToString();
@@ -189,7 +189,7 @@
 
       public MemoryStream convertopdf(string html)
       {
-          using (MemoryStream htmlSource = new MemoryStream(System.Text.Encoding.GetEncoding("1252").GetBytes(html)))
+          using (MemoryStream htmlSource = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
           using (MemoryStream pdfDest = new MemoryStream())
           {
               return pdfDest;
