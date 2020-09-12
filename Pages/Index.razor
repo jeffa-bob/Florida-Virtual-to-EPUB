@@ -40,7 +40,7 @@
                   verifystring = v;
                   try
                   {
-                      modifiedpage = joindocs(await extractpages(verifystring));
+                      modifiedpage = addmathscribe(joindocs(await extractpages(verifystring)));
                       filename = verifystring.Substring(verifystring.LastIndexOf("/") + 1, verifystring.LastIndexOf(".") - verifystring.LastIndexOf("/")) + ".pdf";
                       //modifiedpage = temp;
                       Console.WriteLine(filename);
@@ -73,6 +73,37 @@
           return final;
       }
 
+      public string addmathscribe(string html)
+      {
+          StringWriter writer = new StringWriter();
+          HtmlDocument doc = new HtmlDocument();
+          doc.LoadHtml(html);
+          HtmlNode htma = doc.DocumentNode.Descendants("html").FirstOrDefault();
+          htma.SetAttributeValue("xmlns:m", "http://www.w3.org/1998/Math/MathM");
+          HtmlNode head = doc.DocumentNode.SelectSingleNode("/html/head");
+
+          HtmlNode link = doc.CreateElement("link");
+          head.AppendChild(link);
+          link.SetAttributeValue("rel", "stylesheet");
+          link.SetAttributeValue("href", "/mathscribe/jqmath-0.4.3.css");
+          HtmlNode link2 = doc.CreateElement("link");
+          head.AppendChild(link2);
+          link2.SetAttributeValue("rel", "stylesheet");
+          link2.SetAttributeValue("href", "http://fonts.googleapis.com/css?family=UnifrakturMaguntia");
+          HtmlNode meta = doc.CreateElement("meta");
+          head.AppendChild(meta);
+          meta.SetAttributeValue("charset", "utf-8");
+          HtmlNode script1 = doc.CreateElement("script");
+          head.AppendChild(script1);
+          script1.SetAttributeValue("src","/mathscribe/jquery-1.4.3.min.js");
+          HtmlNode script2 = doc.CreateElement("script");
+          head.AppendChild(script2);
+          script2.SetAttributeValue("src","/mathscribe/jqmath-etc-0.4.6.min.js");
+          script2.SetAttributeValue("charset", "utf-8");
+          doc.Save(writer);
+          return writer.ToString();
+    }
+
       public string joindocs(List<string> docs)
       {
           StringWriter writer = new StringWriter();
@@ -86,11 +117,11 @@
               bool ishtmlExist = htmldoc.DocumentNode
                             .Descendants("html")
                             .Any();
-                            
-              if (ishtmlExist)
+
+            if (ishtmlExist)
                   htmldocs.Add(htmldoc);
-          }
-          foreach (HtmlDocument htmldoc in htmldocs)
+        }
+            foreach (HtmlDocument htmldoc in htmldocs)
           {
               htmldoc.Save(writer);
           }
@@ -115,21 +146,21 @@
               a.Attributes["href"].Value = new Uri(new Uri(baseUrl), a.Attributes["href"].Value).AbsoluteUri;
           }
           doc.Save(writer);
+  
+        return writer.ToString();
+    }
 
-          return writer.ToString();
-      }
-
-      private string? verifystringd(string url)
+        private string? verifystringd(string url)
       {
           if (url.StartsWith("view-source:"))
               url = url.Remove(0, 12);
 
-          if (url.StartsWith("http://") || url.StartsWith("https://"))
+        if   (url.StartsWith("http://") || url.StartsWith("https://"))
               return url;
-          else return null;
-      }
+        else   return null;
+    }
 
-      public async Task<string?> gethtmlfromurl(string url)
+        public async Task<string?> gethtmlfromurl(string url)
       {
           Console.WriteLine(url);
           string result;
@@ -145,8 +176,8 @@
                   {
                       result = await content.ReadAsStringAsync();
                   }
-              }
-          }
+            }
+            }
           return result;
       }
 
@@ -164,6 +195,6 @@
               converterProperties.SetCharset("Windows-1252");
               HtmlConverter.ConvertToPdf(htmlSource, pdfDest, converterProperties);
               return pdfDest;
-          }
+        }
       }
 }
