@@ -184,15 +184,15 @@
 
       public async void savetocomputer()
       {
-          await JSRuntime.InvokeAsync<object>("FileSaveAs", filename, convertopdf(modifiedpage).ToArray());
+          //await JSRuntime.InvokeAsync<object>("FileSaveAs", filename, convertopdf(modifiedpage).ToArray());
       }
 
-      public MemoryStream convertopdf(string html)
+      /*public MemoryStream convertopdf(string html)
       {
           using (MemoryStream htmlSource = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(html)))
           using (MemoryStream pdfDest = new MemoryStream())
           {
               return pdfDest;
         }
-      }
+      }*/
 }
